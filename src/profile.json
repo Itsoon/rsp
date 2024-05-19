@@ -1,0 +1,19 @@
+[
+  {
+    "profile-0": {
+      "run": ["kitty", "chromium"],
+      "kitty-session": ["starter-profile", "arcade-db"],
+      "commands": ["cd $HOME/dev/arcade-db/ && onefetch", "spf", "ranger"]
+    }
+  },
+  {
+    "profile-1": {
+      "run": ["spotify"]
+    }
+  },
+  {
+    "start-up": {
+      "run": ["discord", "spotify", "chromium"]
+    }
+  }
+]
