@@ -7,6 +7,11 @@
     }
   },
   {
+    "arcade-db": {
+      "kitty-session": ["arcade-db"]
+    }
+  },
+  {
     "profile-1": {
       "run": ["spotify"]
     }
