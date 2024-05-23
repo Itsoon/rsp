@@ -1,90 +1,79 @@
-use indexmap::IndexMap;
-use serde_json::Value;
-use std::env;
+use colored::*;
+use serde::Deserialize;
+use std::collections::HashMap;
 use std::fs;
-
-use std::process::exit;
 
 mod launch_profile;
 use launch_profile::launch_profile;
 
+#[derive(Deserialize, Debug)]
+struct Workspace {
+    kitty_session: Option<Vec<String>>,
+    kitty_cmd: Option<Vec<String>>,
+    run: Option<Vec<String>>,
+    cmd: Option<Vec<String>>,
+}
+
+#[derive(Deserialize, Debug)]
+struct Profile {
+    workspaces: HashMap<String, Workspace>,
+}
+
 fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let arg: String;
-
-    if args.len() == 2 {
-        arg = args[1].clone();
-    } else {
-        display_help();
-        exit(0);
-    };
-
     let home_dir = match std::env::var("HOME") {
         Ok(val) => val,
         Err(_) => panic!("HOME environment variable is not set"),
     };
 
-    let path = format!("{}/.config/rsp/profile.json", home_dir);
-    let data = fs::read_to_string(path).expect("Unable to read file");
-    let profiles: Vec<serde_json::Value> = serde_json::from_str(&data).expect("Unable to parse");
+    let path = format!("{}/.config/rsp/profiles/arcade-db.toml", home_dir);
 
-    let mut available_profile = IndexMap::new();
+    println!("{}", path);
 
-    for (index, profile) in profiles.iter().enumerate() {
-        if let Value::Object(map) = profile {
-            for (key, _value) in map {
-                available_profile.insert(index as i32, key.to_string());
-            }
+    let content = match fs::read_to_string(path) {
+        Ok(content) => content,
+        Err(e) => {
+            eprintln!("Erreur de lecture du fichier: {}", e);
+            return;
         }
-    }
+    };
 
-    if arg == "l" || arg == "ls" || arg == "list" {
-        list_available_profile(available_profile);
-        exit(0);
-    } else if arg == "-h" || arg == "-help" || arg == "--help" || arg == "help" {
-        display_help();
-        exit(0);
-    } else if let Ok(arg) = arg.parse::<i32>() {
-        if available_profile.contains_key(&arg) {
-            if let Some(user_value) = available_profile.get(&arg) {
-                for value in profiles.iter() {
-                    if let Some(value) = value.get(user_value) {
-                        if let Ok(json_value) = serde_json::to_value(value) {
-                            launch_profile(&json_value);
-                        }
-                    }
-                }
-            }
-        } else {
-            println!("Bad character");
-            display_help();
-            exit(0);
+    let profile: Profile = match toml::from_str(&content) {
+        Ok(profile) => profile,
+        Err(e) => {
+            eprintln!("Erreur de parsing TOML: {}", e);
+            return;
         }
-    } else {
-        println!("Invalid input or failed parser");
-        display_help();
-        exit(0);
+    };
+
+    println!("{:#?}", profile);
+
+    for (workspace_name, workspace) in &profile.workspaces {
+        println!(
+            "{}{}{}",
+            "workspace ".blue().bold(),
+            workspace_name.blue().bold(),
+            " :".blue().bold()
+        );
+
+        launch_cmd_block(
+            &workspace.kitty_session,
+            "kitty_session",
+            "No kitty_session found",
+        );
+        launch_cmd_block(&workspace.kitty_cmd, "kitty_cmd", "No kitty_cmd found");
+        launch_cmd_block(&workspace.run, "run", "No run found");
+        launch_cmd_block(&workspace.cmd, "cmd", "No cmd found")
     }
 }
 
-fn list_available_profile(available_profile: IndexMap<i32, String>) {
-    for (index, value) in available_profile.iter() {
-        println!("{}  {}", index, value);
+fn launch_cmd_block(options: &Option<Vec<String>>, block_name: &str, msg: &str) {
+    match options {
+        Some(opts) => {
+            println!("{:?}, {:?}", opts, block_name);
+            launch_profile(block_name, opts)
+        }
+        None => {
+            println!("{}", msg.yellow());
+        }
     }
-}
-
-fn display_help() {
-    let help: &str = "
-Usage: starter-profile [COMMAND]
-
-Commands:
-  l, ls, list   Print available profiles
-  <profile>  Processing profile
-  help       Print this message or the help of the given subcommand(s)
-
-Options:
-  -h, --help     Print help
-  -V, --version  Print version";
-    println!("{}", help);
 }

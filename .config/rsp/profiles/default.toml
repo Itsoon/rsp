@@ -1,0 +1,17 @@
+[workspaces]
+
+[workspaces.1]
+run = ["discord", "spotify"]
+kitty_session = ["starter-profile"]
+
+[workspaces.2]
+run = ["chromium"]
+
+[workspaces.3]
+kitty_session = ["arcade-db"]
+
+[workspaces.4]
+kitty_cmd = ["cd $HOME/dev/arcade-db/ && onefetch"]
+
+[workspaces.5]
+run = ["spotube"]

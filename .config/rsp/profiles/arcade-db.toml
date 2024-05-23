@@ -1,0 +1,7 @@
+[workspaces]
+
+[workspaces.1]
+kitty_session = ["arcade-db", "starter-profile"]
+
+[workspaces.2]
+run = ["chromium"]

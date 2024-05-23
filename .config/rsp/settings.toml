@@ -1,0 +1,4 @@
+linux = true
+hyprland = { hyprsome = true }
+debug = false
+default_profile = true
