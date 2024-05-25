@@ -1,4 +1,4 @@
 linux = true
-hyprland = { hyprsome = true }
+hyprland = true
 debug = false
 default_profile = true
