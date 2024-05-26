@@ -1,4 +1,4 @@
-[workspaces.1]
+[workspaces.-]
 run = [
   "hyprctl notify -1 10000 \"rgb(ff0000)\" \"fontsize:35 Hello World from rsp\"",
 ]
