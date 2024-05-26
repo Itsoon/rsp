@@ -6,6 +6,8 @@ use std::fs;
 use crate::launch_profile;
 use launch_profile::launch_profile;
 
+use crate::settings::SETTINGS;
+
 #[derive(Deserialize, Debug)]
 struct Workspace {
     kitty_session: Option<Vec<String>>,
@@ -22,12 +24,16 @@ struct Profile {
 pub fn file_parser(file: String) {
     let home_dir = match std::env::var("HOME") {
         Ok(val) => val,
-        Err(_) => panic!("HOME environment variable is not set"),
+        Err(_) => {
+            panic!("HOME environment variable is not set");
+        }
     };
 
     let path = format!("{}/.config/rsp/profiles/{}", home_dir, file);
 
-    println!("{}", path);
+    if let Some(true) = SETTINGS.debug {
+        println!("{}", path);
+    }
 
     let content = match fs::read_to_string(path) {
         Ok(content) => content,
@@ -36,7 +42,6 @@ pub fn file_parser(file: String) {
             return;
         }
     };
-
     let profile: Profile = match toml::from_str(&content) {
         Ok(profile) => profile,
         Err(e) => {
@@ -46,12 +51,14 @@ pub fn file_parser(file: String) {
     };
 
     for (workspace_name, workspace) in &profile.workspaces {
-        println!(
-            "{}{}{}",
-            "workspace ".blue().bold(),
-            workspace_name.blue().bold(),
-            " :".blue().bold()
-        );
+        if let Some(true) = SETTINGS.debug {
+            println!(
+                "{}{}{}",
+                "workspace ".bold(),
+                workspace_name.bold(),
+                " :".bold()
+            );
+        }
 
         launch_cmd_block(
             &workspace.kitty_session,
@@ -77,9 +84,16 @@ fn launch_cmd_block(
     msg: &str,
 ) {
     match options {
-        Some(opts) => launch_profile(block_name, workspace_name, opts),
+        Some(opts) => {
+            if let Some(true) = SETTINGS.debug {
+                print!("{} {}", block_name.bright_green(), "found\n".bright_green());
+            }
+            launch_profile(block_name, workspace_name, opts);
+        }
         None => {
-            println!("{}", msg.yellow());
+            if let Some(true) = SETTINGS.debug {
+                println!("{}", msg.yellow());
+            }
         }
     }
 }

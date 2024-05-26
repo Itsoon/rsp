@@ -16,7 +16,7 @@ pub fn launch_profile(block_name: &str, workspace_name: &str, options: &Vec<Stri
             let args = vec!["dispatch", "exec", &params];
             persistent_cmd("hyprctl", Some(&args));
         }
-    } else if block_name == "run" {
+    } else if block_name == "run" || block_name == "cmd" {
         for cmd in options {
             let params = format!("[workspace {} silent] {}", workspace_name, cmd);
             let args = vec!["dispatch", "exec", &params];
