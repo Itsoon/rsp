@@ -27,7 +27,7 @@ Clone the repository :
 git clone https://github.com/Itsoon/rsp.git; cd rsp
 ```
 
-## Automated installation (Setup)
+## 🤖Automated installation (Setup)
 
 Run Setup :
 
@@ -41,7 +41,7 @@ Installation check :
 rsp --version
 ```
 
-## Manual installation
+## 🔧Manual installation
 
 Compiling :
 
@@ -67,17 +67,17 @@ Installation check :
 rsp --version
 ```
 
-# Usage
+# 📜Usage
 
 ```text
 Usage: rsp [COMMAND]
 
-Commands:
-  l, ls, list           Print available profiles
+🖥️ Commands:
+  l, ls, list        Print available profiles
   <profile>          Processing profile
   h, help            Print this message or the help of the given subcommand(s)
 
-Options:
+🔧 Options:
   -l, -ls            Print available profiles
   -h, --help         Print help
   -v, -V, --version  Print version

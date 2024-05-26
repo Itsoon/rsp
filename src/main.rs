@@ -105,12 +105,12 @@ fn display_help() {
     let help: &str = "\
 Usage: rsp [COMMAND]
 
-Commands:
-  l, ls, list           Print available profiles
+🖥️ Commands:
+  l, ls, list        Print available profiles
   <profile>          Processing profile
   h, help            Print this message or the help of the given subcommand(s)
 
-Options:
+🔧 Options:
   -l, -ls            Print available profiles
   -h, --help         Print help
   -v, -V, --version  Print version";
