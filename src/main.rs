@@ -20,8 +20,8 @@ fn main() {
 
     let available_profiles = get_available_profiles(home_dir);
 
-    if arg == "l" || arg == "ls" || arg == "list" {
-        list_available_profile(available_profiles);
+    if arg == "-l" || arg == "-ls" || arg == "l" || arg == "ls" || arg == "list" {
+        list_available_profiles(available_profiles);
         exit(0);
     } else if arg == "h" || arg == "-h" || arg == "-help" || arg == "--help" || arg == "help" {
         display_help();
@@ -29,9 +29,13 @@ fn main() {
     } else if arg == "-v" || arg == "-V" || arg == "--version" {
         display_version();
         exit(0);
+    } else if available_profiles.values().any(|value| *value == arg) {
+        let file_name = format_args!("{}.toml", arg).to_string();
+        file_parser(file_name);
     } else if let Ok(arg_i32) = arg.parse::<i32>() {
         if available_profiles.contains_key(&arg_i32) {
-            file_parser(available_profiles[&arg_i32].to_string());
+            let file_name = format_args!("{}.toml", available_profiles[&arg_i32]).to_string();
+            file_parser(file_name);
         } else {
             print!("{}", "Number out of range\n".bright_red());
             display_help();
@@ -52,14 +56,14 @@ fn check_args_validity(args: Vec<String>) -> String {
     }
 }
 
-fn list_available_profile(available_profile: IndexMap<i32, String>) {
-    for (index, value) in available_profile.iter() {
+fn list_available_profiles(available_profiles: IndexMap<i32, String>) {
+    for (index, value) in available_profiles.iter() {
         println!("{}  {}", index, value);
     }
 }
 
 fn get_available_profiles(home_dir: String) -> indexmap::IndexMap<i32, String> {
-    let mut available_profile = IndexMap::new();
+    let mut available_profiles = IndexMap::new();
 
     let profiles_path = format!("{}/.config/rsp/profiles/", home_dir);
 
@@ -84,9 +88,12 @@ fn get_available_profiles(home_dir: String) -> indexmap::IndexMap<i32, String> {
             Err(os_string) => os_string.to_string_lossy().into_owned(),
         };
 
-        available_profile.insert(index as i32, file_name);
+        if file_name.ends_with(".toml") {
+            let file_name_without_extension = file_name.trim_end_matches(".toml").to_string();
+            available_profiles.insert(index as i32, file_name_without_extension);
+        }
     }
-    available_profile
+    available_profiles
 }
 
 fn display_version() {
@@ -96,16 +103,16 @@ fn display_version() {
 
 fn display_help() {
     let help: &str = "\
-Usage: starter-profile [COMMAND]
+Usage: rsp [COMMAND]
 
 Commands:
-  l, ls, list   Print available profiles
-  <profile>  Processing profile
-  h, help       Print this message or the help of the given subcommand(s)
+  l, ls, list           Print available profiles
+  <profile>          Processing profile
+  h, help            Print this message or the help of the given subcommand(s)
 
 Options:
-  -h, --help     Print help
+  -l, -ls            Print available profiles
+  -h, --help         Print help
   -v, -V, --version  Print version";
     println!("{}", help);
 }
-
