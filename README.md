@@ -12,7 +12,7 @@
 
 - Configuration profile management
 
-- Launching profiles from the Terminal
+- Launching profiles from the Terminal or Rofi
 
 - Open applications in specific workspaces
 
@@ -94,3 +94,12 @@ To process a specific profile (replace <profile> with the profile ID or with the
 ❯ rsp hyprland
 Process launched and detached.
 ```
+
+# 🚀Rofi
+
+```conf
+# hyprland.conf
+bind = $mainMod SHIFT, P, exec, .config/rsp/rsp_rofi.sh
+```
+
+![rofi_screenshot](./assets/rofi_screenshot.png)
