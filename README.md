@@ -1,4 +1,4 @@
-# RSP 🦀
+# 🦀RSP
 
 > [!WARNING]
 > RSP is currently only available on Linux with the Hyprland window manager and is compatible only with the kitty terminal.
@@ -15,6 +15,15 @@
 - Launching profiles from the Terminal or Rofi
 
 - Open applications in specific workspaces
+
+# 🚀Rofi
+
+```conf
+# hyprland.conf
+bind = $mainmod SHIFT, P, exec, .config/rsp/rsp_rofi.sh
+```
+
+![rofi_screenshot](./assets/rofi_screenshot.png)
 
 # ⚙️Installation
 
@@ -94,12 +103,3 @@ To process a specific profile (replace <profile> with the profile ID or with the
 ❯ rsp hyprland
 Process launched and detached.
 ```
-
-# 🚀Rofi
-
-```conf
-# hyprland.conf
-bind = $mainMod SHIFT, P, exec, .config/rsp/rsp_rofi.sh
-```
-
-![rofi_screenshot](./assets/rofi_screenshot.png)
