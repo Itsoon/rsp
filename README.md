@@ -8,6 +8,8 @@
 > [!NOTE]
 > RSP, (Rust Starter Profiles), is a CLI tool written in Rust. Its aim is to simplify the management and launching of different work profiles, according to the user's needs. This simplifies the process of configuring the work or relaxation environment in a single command.
 
+[![asciicast](https://asciinema.org/a/lFCj436trKpmRBkVXZFAULlDs.svg)](https://asciinema.org/a/lFCj436trKpmRBkVXZFAULlDs)
+
 # 🔥Features
 
 - Configuration profile management
