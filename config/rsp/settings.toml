@@ -1,4 +1,10 @@
-linux = true
-hyprland = true
-debug = false
-default_profile = true
+[system]
+# The possible options are "macos" or "linux".
+os = "linux"
+
+[settings]
+debug = true
+
+[hyprland]
+enabled = true
+hyprsome = true

@@ -7,6 +7,7 @@ pub fn launch_profile(block_name: &str, workspace_name: &str, options: &Vec<Stri
             let cmd = format!("kitty --session {}", raw_cmd);
             let params = format!("[workspace {} silent] {}", workspace_name, cmd);
             let args = vec!["dispatch", "exec", &params];
+            println!("hyprctl {:?}", Some(&args));
             persistent_cmd("hyprctl", Some(&args));
         }
     } else if block_name == "kitty_cmd" {

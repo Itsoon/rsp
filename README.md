@@ -3,14 +3,14 @@
 > [!WARNING]
 > RSP is currently only available on Linux with the Hyprland window manager and is compatible only with the kitty terminal.
 
-# ⚡What is RSP ?
+### ⚡What is RSP ?
 
 > [!NOTE]
 > RSP, (Rust Starter Profiles), is a CLI tool written in Rust. Its aim is to simplify the management and launching of different work profiles, according to the user's needs. This simplifies the process of configuring the work or relaxation environment in a single command.
 
 [![asciicast](https://asciinema.org/a/lFCj436trKpmRBkVXZFAULlDs.svg)](https://asciinema.org/a/lFCj436trKpmRBkVXZFAULlDs)
 
-# 🔥Features
+### 🔥Features
 
 - Configuration profile management
 
@@ -18,7 +18,7 @@
 
 - Open applications in specific workspaces
 
-# 🚀Rofi
+#### 🚀Rofi
 
 ```conf
 # hyprland.conf
@@ -27,9 +27,9 @@ bind = $mainmod SHIFT, P, exec, .config/rsp/rsp_rofi.sh
 
 ![rofi_screenshot](./assets/rofi_screenshot.png)
 
-# ⚙️Installation
+### ⚙️Installation
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Rust must be installed on your system.
 
 Clone the repository :
@@ -38,7 +38,7 @@ Clone the repository :
 git clone https://github.com/Itsoon/rsp.git; cd rsp
 ```
 
-## 🤖Automated installation (Setup)
+#### 🤖Automated installation (Setup)
 
 Run Setup :
 
@@ -52,7 +52,7 @@ Installation check :
 rsp --version
 ```
 
-## 🔧Manual installation
+#### 🔧Manual installation
 
 Compiling :
 
@@ -78,7 +78,7 @@ Installation check :
 rsp --version
 ```
 
-# 📜Usage
+### 📜Usage
 
 ```text
 Usage: rsp [COMMAND]

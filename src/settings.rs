@@ -3,15 +3,37 @@ use serde::Deserialize;
 use std::fs;
 use std::process::exit;
 
+// #[derive(Deserialize, Debug)]
+// pub struct Settings {
+//     pub linux: Option<bool>,
+//     pub hyprland: Option<bool>,
+//     pub debug: Option<bool>,
+//     pub default_profile: Option<bool>,
+// }
+
 #[derive(Deserialize, Debug)]
-pub struct Settings {
-    pub linux: Option<bool>,
-    pub hyprland: Option<bool>,
-    pub debug: Option<bool>,
-    pub default_profile: Option<bool>,
+pub struct System {
+    pub os: String,
 }
 
-fn load_settings() -> Settings {
+#[derive(Deserialize, Debug)]
+pub struct Hyprland {
+    pub enable: Option<bool>,
+    pub hyprsome: Option<bool>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Settings {
+    pub debug: Option<bool>,
+}
+#[derive(Deserialize, Debug)]
+pub struct Config {
+    pub system: System,
+    pub settings: Settings,
+    pub hyprland: Hyprland,
+}
+
+fn load_settings() -> Config {
     let home_dir = match std::env::var("HOME") {
         Ok(val) => val,
         Err(_) => panic!("HOME environment variable is not set"),
@@ -36,4 +58,4 @@ fn load_settings() -> Settings {
     }
 }
 
-pub static SETTINGS: Lazy<Settings> = Lazy::new(|| load_settings());
+pub static SETTINGS: Lazy<Config> = Lazy::new(|| load_settings());
